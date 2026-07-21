@@ -1,0 +1,32 @@
+{
+  "name": "kingshot-tools",
+  "version": "0.1.0",
+  "description": "Query KingshotPacks data and calculate Kingshot pack CP value.",
+  "author": {
+    "name": "bigtongue5566",
+    "url": "https://github.com/bigtongue5566"
+  },
+  "repository": "https://github.com/bigtongue5566/kingshot-tools",
+  "keywords": [
+    "kingshot",
+    "packs",
+    "cp-value",
+    "gems"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kingshot Tools",
+    "shortDescription": "Query Kingshot packs and calculate CP value.",
+    "longDescription": "Query live KingshotPacks prices and contents, then convert pack rewards to Gems and calculate USD-equivalent CP value.",
+    "developerName": "bigtongue5566",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "查詢 Kingshot 禮包的價格與內容。",
+      "計算這個 Kingshot 禮包的 CP 值。"
+    ]
+  }
+}

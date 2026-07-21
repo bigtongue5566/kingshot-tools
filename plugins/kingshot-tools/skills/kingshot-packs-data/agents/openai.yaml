@@ -1,0 +1,4 @@
+interface:
+  display_name: "KingshotPacks Data"
+  short_description: "Check Kingshot pack data and CP value"
+  default_prompt: "Use $kingshot-packs-data to compare Kingshot pack prices, contents, and CP value from KingshotPacks."

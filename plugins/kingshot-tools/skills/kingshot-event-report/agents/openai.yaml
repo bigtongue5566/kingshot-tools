@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kingshot 活動 CP 報告"
+  short_description: "先確認伺服器版本、禮包與獎品，再建立可重算的活動 CP 報告"
+  default_prompt: "使用 $kingshot-event-report，先確認我的伺服器進度、禮包與獎品內容，再建立可重算的活動 CP 報告。"

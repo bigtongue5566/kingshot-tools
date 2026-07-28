@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kingshot 活動資料"
+  short_description: "查詢活動玩法、計分表、里程碑、時程、解鎖條件與準備策略"
+  default_prompt: "使用 $kingshot-event-data 查詢這個 Kingshot 活動的最新玩法、計分、里程碑與時程。"

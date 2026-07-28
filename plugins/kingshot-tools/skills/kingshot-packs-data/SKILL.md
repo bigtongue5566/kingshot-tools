@@ -14,9 +14,10 @@ Use this skill to turn KingshotPacks into a repeatable data source for Kingshot 
    - `https://kingshotpacks.com/builder` for custom pack value checks when the user provides an in-game screenshot or item list.
 2. If the rendered page only exposes metadata, extract the live front-end data with `scripts/kingshotpacks_fetch.py`.
 3. Compare the extracted `priceUSD`, `priceEUR`, pack contents, `ages`, and item categories with the user's list.
-4. Keep prices exact when the source has exact values. Do not write "about", "approx", or "約" unless the source itself is uncertain.
-5. Rank CP by the user's bottleneck, not only by the site's value score. A high-value pack is lower priority if it gives non-bottleneck resources.
-6. Cite KingshotPacks pages in the final answer or guide sources, and clearly label them as third-party data.
+4. For an event CP report, treat `ages` as candidate routing only. Confirm every pack tier and reward against the player's in-game screens or explicit transcription before handing data to `$kingshot-event-report`.
+5. Keep prices exact when the source has exact values. Do not write "about", "approx", or "約" unless the source itself is uncertain.
+6. Rank CP by the user's bottleneck, not only by the site's value score. A high-value pack is lower priority if it gives non-bottleneck resources.
+7. Cite KingshotPacks pages in the final answer or guide sources, and clearly label them as third-party data.
 
 ## Extraction Script
 
@@ -39,8 +40,11 @@ If network access fails in the sandbox, rerun the same command with the required
 
 ## Interpretation Rules
 
+- Keep activity mechanics separate from pack data. When the user needs event rules, stages, scoring, milestones, schedules, or strategy, also use `$kingshot-event-data`; use KingshotPacks only to verify the attached pack's price and contents.
+- When the user requests a complete event pack CP report or milestone purchase plan, also use `$kingshot-event-report`; preserve exact pack variants and purchase caps as report inputs.
 - Use `priceUSD` for the user's USD budgets; do not convert from EUR when USD is present.
 - Use `ages` to separate server-age variants. Example: Hope Market TG3 packs may emphasize speedups, while TG5/TG5_270 packs may emphasize Truegold.
+- Never infer that an `ages` match proves the player's live pack or reward contents. For event reports, stop and request in-game confirmation when any tier, item, quantity, purchase cap, or reward differs or remains unseen.
 - Do not over-read `oneTimeOnly`; the game can use it for one purchase per period/event, not necessarily permanent one-time bundles. Use the pack name and the user's observed reset cadence to decide monthly/weekly treatment.
 - Treat Hero Rally / Path of Honor as an event paid track when the user is budgeting recurring activity buys. KingshotPacks may mark it `oneTimeOnly`, but public event references describe Hero Rally as a two-week activity; for a 4-week budget use `$9.99 x2 = $19.98/月` unless the user gives a different cadence.
 - For `variants`, mention the variant only when it changes the item type materially, such as Hope Market `Speed` versus `Truegold`.

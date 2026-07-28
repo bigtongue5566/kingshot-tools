@@ -34,6 +34,9 @@ Evaluate a user-provided Kingshot purchase with the KingshotPacks website's USD 
 - Refresh once per calculation session. If live fetching fails and the script falls back to cache, disclose the cache timestamp.
 - Never invent an item value. If an item is absent or ambiguous, list it as unresolved and do not present a complete CP multiplier. Offer a confirmed subtotal or lower bound only when clearly labeled.
 - Do not silently treat unrecognized items as zero.
+- When event mechanics, milestone conditions, schedules, or strategies affect the calculation, also use `$kingshot-event-data`; keep those third-party event facts separate from Builder item values and user-confirmed in-game rules.
+- When the user requests a saveable per-event report, multiple pack tiers, marginal CP, or milestone optimization, also use `$kingshot-event-report`; this skill supplies item values while the report skill owns state transitions and paid-value attribution.
+- Before valuing an event report, require the report skill's server-progress, pack-content, reward-content, and mechanics confirmation gate to pass. Do not calculate a candidate website variant as though it were the player's confirmed in-game version.
 - When a reward lets the player choose one of several items, value only the option actually selected. If the selection is not fixed, show each option's Gem value or a sensitivity range instead of treating every choice as equal.
 - When comparing with a named reference pack, identify it by exact `priceUSD` plus any content variant or server-age tag. Never reuse one tier's CP score for another price tier that has the same or similar pack name.
 - Use exact Builder item units. Do not multiply again by an item's internal `amount` field.

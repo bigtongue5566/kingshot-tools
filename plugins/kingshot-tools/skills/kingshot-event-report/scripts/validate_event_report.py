@@ -41,6 +41,7 @@ MODEL_REQUIRED_KEYS = {
     "verification",
     "sources",
     "facts",
+    "currentState",
     "mechanics",
     "valuation",
     "packs",
@@ -135,6 +136,37 @@ def validate_model(path: Path, warnings: list[str], errors: list[str], strict: b
     if not isinstance(model.get("packs"), list) or not model.get("packs"):
         message = "模型缺少已確認的禮包內容"
         (errors if strict else warnings).append(message)
+    current_state = model.get("currentState")
+    if not isinstance(current_state, dict) or not current_state:
+        message = "模型缺少目前玩家狀態 currentState"
+        (errors if strict else warnings).append(message)
+    else:
+        state_field_groups = {
+            "目前進度": (
+                "progress",
+                "currentVoyages",
+                "currentMileage",
+                "actionsCompleted",
+            ),
+            "現有資源": (
+                "ownedResources",
+                "ownedCompasses",
+                "resources",
+                "currency",
+            ),
+            "已購禮包": ("alreadyPurchasedPacks", "packsPurchased"),
+        }
+        missing_state_groups = [
+            label
+            for label, aliases in state_field_groups.items()
+            if not any(alias in current_state for alias in aliases)
+        ]
+        if missing_state_groups:
+            message = (
+                "currentState 缺少邊際 CP 所需狀態："
+                + ", ".join(missing_state_groups)
+            )
+            (errors if strict else warnings).append(message)
     rewards = model.get("rewards")
     milestones = model.get("milestones")
     if not (
@@ -185,6 +217,18 @@ def validate(report_path: Path, strict: bool) -> dict:
         (errors if strict else warnings).append(message)
     if "邊際" not in text and "付費增量" not in text and "新增 CP" not in text:
         errors.append("缺少付費增量或邊際 CP 說明")
+    if strict and not (
+        "當下免費基準" in text
+        or "不再加買" in text
+        or "不加購" in text
+    ):
+        errors.append("缺少當下不再加買的免費基準")
+    if strict and not ("追加禮包" in text or "新增禮包" in text):
+        errors.append("主方案缺少追加禮包欄位")
+    if strict and not ("追加現金" in text or "新增成本" in text):
+        errors.append("主方案缺少追加現金欄位")
+    if strict and "邊際 CP" not in text:
+        errors.append("主方案必須明確標示邊際 CP")
     table_count = sum(
         1 for line in text.splitlines() if TABLE_SEPARATOR_RE.fullmatch(line)
     )

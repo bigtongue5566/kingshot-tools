@@ -120,12 +120,13 @@ Define a state object containing every variable that changes future value, for e
 
 Calculate these states separately:
 
-1. No-purchase free baseline.
-2. Player's current confirmed state, when progress already exists.
-3. State after each single pack from the same baseline.
-4. State after legal purchase combinations.
+1. Player's current confirmed state, including already-purchased packs, owned resources, active timers, partial progress, and remaining purchase caps.
+2. The current-state outcome at event end with no additional purchases (`當下免費基準`).
+3. State after each not-yet-purchased single pack from that same baseline.
+4. State after legal additional-purchase combinations from that same baseline.
 
 Do not reset known partial progress or replace it with average progress.
+Do not treat current progress as the free baseline while owned resources or natural production can still create rewards. Earlier purchases are sunk history for a new-purchase decision.
 
 ## 5. Value Event Outcomes
 
@@ -153,6 +154,9 @@ cp = usd_equivalent / paid_usd
 This difference automatically credits a purchase for a newly crossed milestone without charging it for rewards already reachable for free.
 
 When comparing a bundle of purchases, calculate the bundle from the same starting state. The sum of isolated single-pack CP values is not valid when packs interact through milestones, caps, conversions, or guarantees.
+Use only direct items and cash from the new bundle. Exclude previously purchased packs from both value and cost. If the no-additional-purchase state already reaches the target, the result is `無需加買` with no CP value.
+
+Keep historical or cumulative CP outside the main recommendation. If a sequential upgrade table is needed, calculate each marginal step from the state produced by the preceding selected plan; independently optimized target plans may not be nested.
 
 ## 7. Optimize Purchase Combinations
 
@@ -172,6 +176,7 @@ Enumerate legal integer quantities. For every target:
 5. Break ties by higher CP, then larger safety buffer.
 
 Report both the mathematical minimum and a buffered plan when uptime or luck can cause failure.
+The default plan table reports target progress, additional pack combination, resulting progress, additional cash, and marginal CP from the current-state no-additional-purchase baseline.
 
 ## 8. Test and Report
 

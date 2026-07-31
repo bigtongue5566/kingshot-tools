@@ -118,6 +118,14 @@ def model_template(event_name: str, slug: str, data_date: str) -> dict:
             "purchaseRules": [],
             "resetRules": [],
         },
+        "currentState": {
+            "capturedAt": data_date,
+            "progress": {},
+            "ownedResources": [],
+            "alreadyPurchasedPacks": {},
+            "remainingPurchaseCaps": {},
+            "activeTimers": [],
+        },
         "mechanics": {
             "modelType": "",
             "state": {},

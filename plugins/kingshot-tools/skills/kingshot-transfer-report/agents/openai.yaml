@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kingshot 移民調查報告"
+  short_description: "調查轉組王國、中文玩家名稱、高端強度並產生可重建報告"
+  default_prompt: "使用 $kingshot-transfer-report 調查我的移民區間，依需求產生 Mystic 前 100 王國分析、中文玩家與王國完整調查，或兩份完整 PDF。"

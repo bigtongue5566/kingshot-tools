@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kingshot Translation Pairs"
+  short_description: "Match verified Kingshot Chinese and English names"
+  default_prompt: "Use $kingshot-translation-pairs to match a Kingshot Traditional Chinese item name with its exact English name."

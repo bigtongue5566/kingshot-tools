@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAt": "2026-08-18",
+  "notes": [
+    "These pairs are identifiers, not literal translations.",
+    "A KingshotPacks Builder entry confirms the English catalog name; a player-confirmed in-game name supplies the Traditional Chinese side."
+  ],
+  "sources": {
+    "builder-live-2026-08-18": {
+      "type": "third-party-live-catalog",
+      "url": "https://kingshotpacks.com/builder",
+      "fetchedAt": "2026-08-18T15:24:00.862627+00:00"
+    },
+    "tidal-voyage-player-2026-08-18": {
+      "type": "player-confirmed-in-game-transcription",
+      "date": "2026-08-18",
+      "context": "踏浪之旅潮汐寶箱與里程獎勵"
+    },
+    "windward-voyage-player-2026-07-31": {
+      "type": "player-confirmed-project-data",
+      "date": "2026-07-31",
+      "path": "data/windward-voyage.json"
+    },
+    "ice-sea-shark-project-data": {
+      "type": "validated-project-data",
+      "date": "2026-08-04",
+      "path": "data/ice-sea-shark-dice.json"
+    }
+  },
+  "terms": [
+    {
+      "zhTw": "寶石手冊",
+      "en": "Charm Guide",
+      "category": "Governor Charm",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "tidal-voyage-player-2026-08-18"
+      ]
+    },
+    {
+      "zhTw": "寶石圖紙",
+      "en": "Charm Design",
+      "category": "Governor Charm",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "tidal-voyage-player-2026-08-18"
+      ]
+    },
+    {
+      "zhTw": "領主寶石材料隨機寶箱",
+      "en": "Random Governor Charm Material Chest",
+      "category": "Governor Charm",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "tidal-voyage-player-2026-08-18"
+      ],
+      "notes": "Do not merge with Governor Charm Material Chest.",
+      "verifiedAt": "2026-08-18"
+    },
+    {
+      "zhTw": "領主裝備材料寶箱",
+      "en": "Governor Gear Material Chest",
+      "category": "Governor Gear",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "windward-voyage-player-2026-07-31"
+      ]
+    },
+    {
+      "zhTw": "設計圖紙",
+      "en": "Artisan Vision",
+      "category": "Governor Gear",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "windward-voyage-player-2026-07-31"
+      ]
+    },
+    {
+      "zhTw": "金絲線",
+      "en": "Gilded Threads",
+      "category": "Governor Gear",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "windward-voyage-player-2026-07-31"
+      ]
+    },
+    {
+      "zhTw": "進貢綢緞",
+      "en": "Satin",
+      "category": "Governor Gear",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "windward-voyage-player-2026-07-31"
+      ]
+    },
+    {
+      "zhTw": "5 分鐘通用加速",
+      "en": "5 Minute Speedup",
+      "category": "Speedup",
+      "aliasesZhTw": [
+        "5分鐘通用加速"
+      ],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "tidal-voyage-player-2026-08-18"
+      ]
+    },
+    {
+      "zhTw": "1 小時通用加速",
+      "en": "1 Hour Speedup",
+      "category": "Speedup",
+      "aliasesZhTw": [
+        "1小時通用加速"
+      ],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "tidal-voyage-player-2026-08-18"
+      ]
+    },
+    {
+      "zhTw": "1 小時訓練加速",
+      "en": "1 Hour Training Speedup",
+      "category": "Speedup",
+      "aliasesZhTw": [
+        "1小時訓練加速"
+      ],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "ice-sea-shark-project-data"
+      ]
+    },
+    {
+      "zhTw": "傳說通用英雄碎片",
+      "en": "Mythic General Hero Shard",
+      "category": "Hero Item",
+      "aliasesZhTw": [
+        "傳說英雄通用碎片"
+      ],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "tidal-voyage-player-2026-08-18"
+      ]
+    },
+    {
+      "zhTw": "鑽石",
+      "en": "Gems",
+      "category": "Currency",
+      "aliasesZhTw": [
+        "寶石"
+      ],
+      "aliasesEn": [
+        "Gem"
+      ],
+      "status": "confirmed",
+      "sourceIds": [
+        "builder-live-2026-08-18",
+        "windward-voyage-player-2026-07-31"
+      ]
+    },
+    {
+      "zhTw": "踏浪之旅",
+      "en": "Wavebound Voyage",
+      "category": "Event",
+      "aliasesZhTw": [],
+      "aliasesEn": [],
+      "status": "confirmed",
+      "verifiedAt": "2026-08-18",
+      "sourceIds": [
+        "tidal-voyage-player-2026-08-18"
+      ]
+    }
+  ]
+}

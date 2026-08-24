@@ -19,6 +19,15 @@ Confirm or discover these inputs before drawing conclusions:
 
 If the user says “中文玩家” without independent identity evidence, use **player-name language signals** and label the result as a visible lower bound, not a nationality census.
 
+## Report Modes
+
+Choose one or both modes from the user's requested title or goal. They share live data, but they are separate PDFs unless the user asks to merge them.
+
+1. **Mystic Top 100 kingdom analysis** — title `Kingshot 移民王國分析（Mystic 前 100 名樣本）`; use the transfer-group Top 100 to compare visible high-end depth, Power, Mystic, player and alliance concentration, leaderboard pressure, and migration tradeoffs. Use [assets/mystic-top100-kingdom-analysis-template.md](assets/mystic-top100-kingdom-analysis-template.md).
+2. **Full Chinese-player and kingdom investigation** — title pattern `Kingshot 轉組 K<min>–K<max>：中文玩家與王國完整調查`; audit every expected player in every kingdom and produce the complete direct-name ranking plus per-kingdom name coverage. Use [assets/transfer-report-template.md](assets/transfer-report-template.md).
+
+Alliance concentration is permitted only as a kingdom power-structure metric in the first mode. Alliance names and tags must never identify an individual as Chinese or Taiwanese in either mode.
+
 ## Live Data Collection
 
 1. Browse `https://ks-atlas.com/` and verify the current kingdom range, transfer-group ID, page labels, and data dates.
@@ -88,7 +97,24 @@ Read [references/report-method.md](references/report-method.md) for field defini
 - Cite direct KS Atlas pages near current factual claims and label the site unofficial.
 - Do not present an old PDF, Dropbox file, or short URL as current after the report changes.
 
-## Full PDF Content Contract
+## Mystic Top 100 PDF Content Contract
+
+When the user asks for `Kingshot 移民王國分析`, the PDF must use the transfer-group Mystic Top 100 as a clearly labeled censored sample, not as the complete population of every kingdom. It must contain:
+
+1. **先講結論** — recommend a balanced default plus alternatives for high-end strength, distributed power, stable growth, strongest Mystic front line, and lower personal-ranking pressure. State that the final fit depends on the user's Power, Mystic, spending, language, and goals.
+2. **樣本口徑與 Power／Mystic** — give the group, snapshot date, Top 100 row count, kingdom coverage, Power-versus-Mystic explanation, and the warning that sample totals are not whole-kingdom totals.
+3. **核心王國比較** — compare only the relevant leading or shortlisted kingdoms with `王國／前百人數／樣本總戰力／Mystic 合計／轉組前 20 人數／最強單人戰力占比／最大聯盟 Mystic 占比／結構判讀`.
+4. **從不同目標看** — separate recommendations for `想打王國戰、跟強車`, `想要健康的高端分布`, `想拿個人活動排名`, and `想加入權力中心、少處理多盟政治`.
+5. **建議 shortlist** — a table with `優先級／王國／適合對象／移民前最大確認點`.
+6. **這份榜單不能回答的關鍵問題** — list the missing live facts to request before migrating: recent KvK results, top-alliance power and activity, event times and languages, NAP and castle rotation, rally-leader quality, immigration cap/invitations, and planned departures.
+7. **判讀限制** — state that the ranking is truncated, sample aggregates do not equal kingdom strength, alliance concentration does not prove cooperation or nationality, and the user's ability to enter a target alliance still matters.
+8. **資料來源與快照** — link the KS Atlas player ranking and the relevant kingdom or ranking pages, and label the source unofficial.
+
+Add `如果優先尋找中文／台灣玩家` only when requested. Classify that section from player names only; do not reuse alliance tags such as `CTW`, `TWN`, or `PIR` as identity evidence. If only the transfer Top 100 is available, label it as a very narrow visible lower bound and recommend the full Chinese-player mode for complete range coverage.
+
+Before rendering, verify that kingdom sample counts sum to the declared ranking row count (normally 100), every aggregate is computed from the same snapshot, concentration percentages use documented denominators, shortlist claims match the comparison table, and the PDF tables are searchable and unclipped. If fewer than 100 rows are available, disclose the incomplete snapshot and do not call it a complete Top 100.
+
+## Full Chinese-Player PDF Content Contract
 
 When the user asks for a `中文玩家與王國完整調查`, a complete migration PDF, or the K1827–K1883 report, the PDF is a full deliverable rather than a short summary. Use this exact title pattern:
 

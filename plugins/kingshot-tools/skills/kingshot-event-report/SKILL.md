@@ -1,6 +1,6 @@
 ---
 name: kingshot-event-report
-description: Create, calculate, validate, and update reproducible Markdown CP reports for Kingshot event packs after confirming the player's server progression, current progress, already-purchased packs, remaining resources, pack contents, and event rewards. Default recommendations to marginal CP from the current no-additional-purchase baseline, with cumulative CP kept separate. Use when a user asks for a per-event pack report, event pack CP table, milestone stopping plan, cheapest additional pack combination, a report such as Kingshot-逐風之旅-CP值報告.md, or a recalculation after server progression, event rules, rewards, progress, purchases, or pack contents change.
+description: 在確認玩家的伺服器進度、目前活動進度、已購禮包、剩餘資源、禮包內容與活動獎勵後，建立、計算、驗證及更新可重算的 Kingshot 活動禮包 Markdown CP 報告。當使用者需要單一活動禮包報告、CP 表、里程碑停手方案、最便宜加購組合，或因進度、規則、獎勵與內容變動而重算時使用；預設以目前不加購基準計算邊際 CP，並將累積 CP 分開呈現。
 ---
 
 # Kingshot Event CP Report

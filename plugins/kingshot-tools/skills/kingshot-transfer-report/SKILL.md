@@ -1,6 +1,6 @@
 ---
 name: kingshot-transfer-report
-description: Research Kingshot transfer groups and kingdom ranges with live KS Atlas data, audit visible player names for Chinese-language signals, compare Power, Mystic, and KvK, and create reproducible Traditional Chinese CSV, Markdown, or PDF migration reports. Use when a user asks where to migrate, requests a detailed K-range investigation, wants Chinese or Taiwanese player-name analysis, or needs a player list ranked by Power or Mystic. Do not use for event rules, pack contents, or CP valuation.
+description: 使用即時 KS Atlas 資料研究 Kingshot 轉組與王國範圍，檢查可見玩家名稱的中文訊號，比較 Power、Mystic 與 KvK，並建立可重算的繁體中文 CSV、Markdown 或 PDF 移民報告。當使用者詢問移民去向、要求詳細王國區間調查、中文或台灣玩家名稱分析，或需要依 Power 或 Mystic 排名的玩家清單時使用；不要用於活動規則、禮包內容或 CP 估值。
 ---
 
 # Kingshot Transfer Report

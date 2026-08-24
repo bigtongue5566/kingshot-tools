@@ -1,4 +1,4 @@
 interface:
-  display_name: "KingshotPacks Data"
-  short_description: "Check Kingshot pack data and CP value"
-  default_prompt: "Use $kingshot-packs-data to compare Kingshot pack prices, contents, and CP value from KingshotPacks."
+  display_name: "Kingshot 禮包資料"
+  short_description: "查詢禮包價格、內容、伺服器階段差異與 CP 估值資料"
+  default_prompt: "使用 $kingshot-packs-data，從 KingshotPacks 查詢並比較 Kingshot 禮包價格、內容與 CP 估值。"

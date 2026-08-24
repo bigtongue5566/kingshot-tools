@@ -88,6 +88,38 @@ Read [references/report-method.md](references/report-method.md) for field defini
 - Cite direct KS Atlas pages near current factual claims and label the site unofficial.
 - Do not present an old PDF, Dropbox file, or short URL as current after the report changes.
 
+## Full PDF Content Contract
+
+When the user asks for a `中文玩家與王國完整調查`, a complete migration PDF, or the K1827–K1883 report, the PDF is a full deliverable rather than a short summary. Use this exact title pattern:
+
+```text
+Kingshot 轉組 K<min>–K<max>：中文玩家與王國完整調查
+```
+
+The PDF must contain all of these sections unless the user explicitly removes one:
+
+1. **結論先講** — name the primary and alternative kingdoms by objective, with the supporting Chinese-name, Mystic, Power, and KvK facts plus each choice's main cost.
+2. **各角度移民建議** — a compact table with `偏好／優先王國／為什麼／主要代價`; do not reduce the recommendation to one opaque overall score.
+3. **全量逐名判讀口徑** — state the exact kingdom count, expected players per kingdom, total audited rows, T/Z/B/H/R/J/E/D/N category counts, direct-name lower bound, and the rule that alliance names were not evidence.
+4. **Power 與 Mystic** — explain the difference and state which one controls the full player ranking; never present Mystic as combat Power.
+5. **轉組前 100 的直接中文／台灣名稱** — list every matching player, not only the highest one, with transfer rank, kingdom, player, Mystic, Power, and judgment. Say explicitly when there are no matches.
+6. **中文名稱玩家完整排名** — include every `direct_chinese_name=true` row, never a Top 10 excerpt. If sorted by Power, show `戰力名次／王國／玩家／戰力／Mystic／本國 Mystic 名次／名稱判讀`; if sorted by Mystic, place Mystic rank and Mystic first, then Power.
+7. **每個王國的玩家名稱分析** — exactly one row for every kingdom in range, including direct Chinese-name count, direct-name players in the local Mystic Top 20, transfer Top 100 count, and visible examples. For K1827–K1883 this is the `57 國玩家名稱覆蓋表`.
+8. **限制與移民前核對** — disclose snapshot dates, missing or small KvK samples, name-only undercount, English-name blind spots, and the in-game questions to verify: Chinese chat activity, UTC+8 event times, recruitment, NAP, castle rotation, and reward policy.
+9. **資料來源** — link KS Atlas directory, kingdom rankings, player rankings, transfer hub or relevant kingdom pages, and label KS Atlas unofficial.
+10. **可重建資料** — name the raw snapshot, audited player CSV, selected ranking CSV, and per-kingdom summary used to make the PDF.
+
+The per-kingdom player-name coverage is required in a full report; a generic `57 國競爭力表` is not. Use kingdom Power, Mystic, and KvK facts inside recommendations, but do not add a separate all-kingdom competitiveness table unless the user asks for it.
+
+Before rendering, verify these reconciliation rules:
+
+- The complete ranking row count equals the direct-name total in the methodology table.
+- The sum of per-kingdom direct-name counts equals that same total.
+- Every kingdom in the requested inclusive range appears exactly once in the coverage table.
+- The player table is actually ordered by the user's selected primary metric and retains the other metric as the tie-breaker.
+- The conclusions use the same snapshot and counts as the tables; do not preserve old recommendations after the dataset changes.
+- The PDF has searchable text, no clipped tables, repeated table headers where needed, and page breaks that keep headings with their first content row.
+
 ## Publication Boundary
 
 Creating local artifacts does not authorize uploading, overwriting a public file, changing share permissions, creating a short URL, or publishing to another repository. Obtain explicit authorization for the exact current payload immediately before each external publication step. If a public report expands to include player names, Power, Mystic, or another detailed roster, describe that expansion before requesting authorization.

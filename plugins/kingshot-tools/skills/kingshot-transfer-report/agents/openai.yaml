@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kingshot 移民調查報告"
+  short_description: "調查轉組王國、中文玩家名稱、高端強度並產生可重建報告"
+  default_prompt: "使用 $kingshot-transfer-report 調查我可移民區間的每個王國、中文玩家與高端強度，並產生排序清單及報告。"

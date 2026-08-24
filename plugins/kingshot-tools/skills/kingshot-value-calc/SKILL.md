@@ -1,6 +1,6 @@
 ---
 name: kingshot-value-calc
-description: Calculate Kingshot pack CP value from the USD price paid and the received item quantities by refreshing item gem costs and the USD-per-Gem baseline from the KingshotPacks Custom Pack Builder, converting all items to Gems, and reporting how many USD-equivalent dollars of value each US dollar bought. Use when a user asks whether a Kingshot bundle is worth it, provides a price plus pack contents, requests a CP or value ratio, or needs an itemized Gem-value breakdown.
+description: 依玩家支付的美元價格與收到的物品數量計算 Kingshot 禮包 CP 值；從 KingshotPacks Custom Pack Builder 更新物品鑽石成本與美元兌鑽石基準，將所有物品換算為鑽石，並回報每 1 美元買到多少美元等值。當使用者詢問禮包是否值得、提供價格與內容、要求 CP 倍率或需要逐項鑽石價值明細時使用。
 ---
 
 # Kingshot Value Calculator

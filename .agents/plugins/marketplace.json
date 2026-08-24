@@ -1,7 +1,7 @@
 {
-  "name": "personal",
+  "name": "kingshot-tools",
   "interface": {
-    "displayName": "Personal"
+    "displayName": "Kingshot Tools Marketplace"
   },
   "plugins": [
     {

@@ -1,6 +1,6 @@
 ---
 name: kingshot-packs-data
-description: Query and cross-check Kingshot pack prices, contents, server-age variants, and CP/value assumptions using KingshotPacks pages and their live front-end pack database. Use when Codex needs to verify Kingshot recurring packs, event packs, Daily Deals, Hope Market, Hero Rally/Path of Honor, Mystery Badge, Gear Imbuement, Masters Collection, Sign-in & Earn It, Intel/Ultra monthly cards, or update a Kingshot spending guide with pack contents from kingshotpacks.com.
+description: 使用 KingshotPacks 頁面與即時前端禮包資料庫，查詢並交叉核對 Kingshot 禮包價格、內容、伺服器階段差異與 CP 估值假設。當使用者需要驗證常駐或活動禮包、Daily Deals、Hope Market、Hero Rally、Path of Honor、Mystery Badge、Gear Imbuement、Masters Collection、Sign-in & Earn It、Intel 或 Ultra 月卡，或更新消費指南時使用。
 ---
 
 # KingshotPacks Data

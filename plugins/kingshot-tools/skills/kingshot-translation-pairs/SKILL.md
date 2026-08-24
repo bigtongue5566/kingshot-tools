@@ -1,6 +1,6 @@
 ---
 name: kingshot-translation-pairs
-description: Match Traditional Chinese Kingshot item names to exact English catalog names and vice versa using a confirmed layered glossary, and autonomously record newly confirmed pairs in a user-owned JSON store with conflict checks. Use when translating Kingshot proper nouns, reconciling in-game screenshots with English guides or KingshotPacks, or preventing similar items from being merged in pack and event reports; ask the user first when the English name is unknown, and do not use this skill for ordinary prose translation.
+description: 使用已確認的分層詞彙庫，將 Kingshot 繁中物品名稱精確對應至英文目錄名稱，亦可反向查詢，並在衝突檢查後把新確認的配對記錄於使用者擁有的 JSON 儲存區。當需要翻譯 Kingshot 專有名稱、核對遊戲截圖與英文攻略或 KingshotPacks，或避免報告誤合併相似物品時使用；英文名稱未知時先詢問使用者，不用於一般文章翻譯。
 ---
 
 # Kingshot Translation Pairs

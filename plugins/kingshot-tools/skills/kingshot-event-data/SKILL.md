@@ -1,6 +1,6 @@
 ---
 name: kingshot-event-data
-description: Research and cross-check Kingshot event rules, scoring actions, point tables, milestones, rewards, cadence, duration, unlock requirements, schedules, and strategies using the live Kingshot Mastery event database and guides. Use when Codex needs to explain a Kingshot activity or event, identify what to save or spend, compare event stages, check current or upcoming event rotations, resolve English and Traditional Chinese event names, or update an event model or spending guide with information from kingshotmastery.com.
+description: 使用即時 Kingshot Mastery 活動資料庫與攻略，研究並交叉核對 Kingshot 活動規則、計分、里程碑、獎勵、週期、解鎖條件、時程與策略。當使用者詢問活動玩法、該囤積或消耗什麼、比較活動階段、查看目前或即將到來的輪替、核對中英文活動名稱，或更新活動模型與消費指南時使用。
 ---
 
 # Kingshot Event Data

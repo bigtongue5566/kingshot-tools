@@ -1,4 +1,4 @@
 interface:
-  display_name: "Kingshot Translation Pairs"
-  short_description: "Match verified Kingshot Chinese and English names"
-  default_prompt: "Use $kingshot-translation-pairs to match a Kingshot Traditional Chinese item name with its exact English name."
+  display_name: "Kingshot 中英名稱對照"
+  short_description: "精確核對已確認的 Kingshot 繁中與英文專有名稱"
+  default_prompt: "使用 $kingshot-translation-pairs，將 Kingshot 繁中物品名稱對應至正確的英文名稱。"

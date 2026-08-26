@@ -33,10 +33,13 @@ judgment_code,judgment,confidence,reason,direct_chinese_name,snapshot_date
 Optional fields:
 
 ```text
-transfer_group_rank,high_end_scope,alliance,source_url,source_snapshot_at
+transfer_group_rank,high_end_scope,alliance,source_url,source_snapshot_at,
+governor_id,tracker_uid,known_names,id_match_status,id_source,id_last_checked
 ```
 
 Store Power and Mystic as unrounded numbers. Round only report display values. Keep the original player spelling and Unicode.
+
+`governor_id` is the in-game Governor/Player ID and is the durable identity key. `tracker_uid` is an optional third-party database key; never treat it as the Governor ID. Rankings, kingdom numbers, Power values, and trailing notes such as an old rank are not IDs. When `governor_id` is present, record the match status, source, last-check date, and previous visible names. Read [player-id-registry.md](player-id-registry.md) for the registry contract.
 
 ## Recommended comparison angles
 

@@ -75,8 +75,15 @@ def is_true(value: Any) -> bool:
     return str(value or "").strip().lower() in TRUE_VALUES
 
 
-def player_key(row: dict[str, str]) -> tuple[str, str]:
-    return (str(row.get("kingdom", "")).strip(), str(row.get("player", "")).strip())
+def player_key(row: dict[str, str]) -> tuple[str, ...]:
+    governor_id = str(row.get("governor_id", "")).strip()
+    if governor_id:
+        return ("governor_id", governor_id)
+    return (
+        "kingdom_player",
+        str(row.get("kingdom", "")).strip(),
+        str(row.get("player", "")).strip(),
+    )
 
 
 def validate_ranking(
@@ -153,7 +160,7 @@ def main() -> int:
         return 1
 
     counts: Counter[int] = Counter()
-    keys: Counter[tuple[str, str]] = Counter()
+    keys: Counter[tuple[str, ...]] = Counter()
     local_rank_keys: Counter[tuple[int, int]] = Counter()
     direct_rows: list[dict[str, str]] = []
     for row_number, row in enumerate(rows, start=2):
@@ -173,8 +180,21 @@ def main() -> int:
 
         key = player_key(row)
         keys[key] += 1
-        if not key[1]:
+        if not str(row.get("player", "")).strip():
             errors.append(f"row {row_number}: player is empty")
+
+        governor_id = str(row.get("governor_id", "")).strip()
+        tracker_uid = str(row.get("tracker_uid", "")).strip()
+        if governor_id:
+            if not governor_id.isdecimal() or int(governor_id) < 1:
+                errors.append(f"row {row_number}: governor_id must be a positive decimal integer")
+            for provenance_field in ("id_match_status", "id_source", "id_last_checked"):
+                if provenance_field not in fields or not str(row.get(provenance_field, "")).strip():
+                    errors.append(
+                        f"row {row_number}: {provenance_field} is required when governor_id is present"
+                    )
+        if tracker_uid and (not tracker_uid.isdecimal() or int(tracker_uid) < 1):
+            errors.append(f"row {row_number}: tracker_uid must be a positive decimal integer")
 
         for field in (
             "judgment_code",
@@ -213,7 +233,7 @@ def main() -> int:
 
     duplicate_keys = [key for key, count in keys.items() if count > 1]
     if duplicate_keys:
-        errors.append(f"duplicate kingdom/player rows: {len(duplicate_keys)}; first: {duplicate_keys[0]!r}")
+        errors.append(f"duplicate player identities: {len(duplicate_keys)}; first: {duplicate_keys[0]!r}")
 
     duplicate_local_ranks = [key for key, count in local_rank_keys.items() if count > 1]
     if duplicate_local_ranks:

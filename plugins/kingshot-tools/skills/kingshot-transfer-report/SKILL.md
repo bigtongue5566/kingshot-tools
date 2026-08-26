@@ -42,6 +42,8 @@ Alliance concentration is permitted only as a kingdom power-structure metric in 
 
 Do not claim complete coverage unless every kingdom and every expected player row passed validation.
 
+When the user wants to keep tracking players after name changes, read [references/player-id-registry.md](references/player-id-registry.md). KS Atlas leaderboard rows may not expose a Player ID; leave it blank instead of guessing from a rank, kingdom, Power, name fragment, or a third-party internal key. Use the in-game `Governor ID` / `Player ID` as the durable identity key when it has been independently confirmed, and retain old visible names as aliases.
+
 ## Player-Name Audit
 
 Read [references/name-audit.md](references/name-audit.md) before classifying Chinese or Taiwanese player-name signals.
@@ -66,7 +68,7 @@ Read [references/report-method.md](references/report-method.md) for field defini
 
 1. Fetch or transcribe the live KS Atlas snapshot.
 2. Normalize all player rows to the schema in [references/report-method.md](references/report-method.md).
-3. Complete the player-name audit and preserve its reasons.
+3. Complete the player-name audit and preserve its reasons. If stable IDs are available, merge by `governor_id` and preserve name history with `scripts/upsert_player_registry.py`.
 4. Run the dataset validator:
 
    ```powershell

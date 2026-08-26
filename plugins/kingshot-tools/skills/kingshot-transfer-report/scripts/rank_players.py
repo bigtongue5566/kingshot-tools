@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rank audited Kingshot player rows by Power or Mystic."""
+"""依 Power 或 Mystic 排序已完成判讀的 Kingshot 玩家資料。"""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ def number(value: Any, field: str, row_number: int) -> float:
     try:
         return float(text)
     except ValueError as exc:
-        raise ValueError(f"row {row_number}: invalid {field} value {value!r}") from exc
+        raise ValueError(f"第 {row_number} 列：{field} 數值無效：{value!r}") from exc
 
 
 def integer(value: Any, default: int = 999999) -> int:
@@ -36,7 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--all-rows",
         action="store_true",
-        help="rank every row instead of only direct_chinese_name=true rows",
+        help="排序所有列，不只 direct_chinese_name=true 的列",
     )
     return parser.parse_args()
 
@@ -48,11 +48,11 @@ def main() -> int:
         input_fields = list(reader.fieldnames or [])
         missing = sorted(REQUIRED_FIELDS - set(input_fields))
         if missing:
-            raise SystemExit(f"missing required columns: {', '.join(missing)}")
+            raise SystemExit(f"缺少必要欄位：{', '.join(missing)}")
         reserved = {"row_number", f"{args.sort_by}_rank"} & set(input_fields)
         if reserved:
             raise SystemExit(
-                f"input already contains output columns: {', '.join(sorted(reserved))}"
+                f"輸入檔已含輸出保留欄位：{', '.join(sorted(reserved))}"
             )
         rows = list(reader)
 
@@ -100,7 +100,7 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(output_rows)
 
-    print(f"Saved {len(output_rows)} rows sorted by {primary} to {args.output_csv}")
+    print(f"已將 {len(output_rows)} 列依 {primary} 排序並儲存至 {args.output_csv}")
     return 0
 
 

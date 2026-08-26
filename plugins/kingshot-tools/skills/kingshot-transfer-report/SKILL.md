@@ -3,149 +3,153 @@ name: kingshot-transfer-report
 description: 使用即時 KS Atlas 資料研究 Kingshot 轉組與王國範圍，檢查可見玩家名稱的中文訊號，比較 Power、Mystic 與 KvK，並建立可重算的繁體中文 CSV、Markdown 或 PDF 移民報告。當使用者詢問移民去向、要求詳細王國區間調查、中文或台灣玩家名稱分析，或需要依 Power 或 Mystic 排名的玩家清單時使用；不要用於活動規則、禮包內容或 CP 估值。
 ---
 
-# Kingshot Transfer Report
+# Kingshot 移民調查報告
 
-Research the user's current transfer range and create evidence-backed migration artifacts. Treat KS Atlas as a live unofficial third-party source; snapshot dates and the user's in-game screens take priority over earlier reports.
+研究使用者目前的轉組範圍，建立有資料依據的移民成果。KS Atlas 是即時但非官方的第三方來源；快照日期與使用者的遊戲內畫面優先於舊報告。
 
-## Preflight
+## 前置確認
 
-Confirm or discover these inputs before drawing conclusions:
+做結論前先確認或找出：
 
-- Kingdom range or transfer-group ID.
-- Whether the user means visible Chinese-language names, Taiwan-specific name signals, or confirmed Chinese-speaking players.
-- Preferred player ordering: `power` or `mystic`.
-- Desired deliverables: chat summary, CSV, Markdown, PDF, or a combination.
-- Sections the user wants included or omitted.
+- 王國範圍或轉組 ID。
+- 使用者要找的是可見中文名稱、台灣名稱訊號，還是已確認的華語玩家。
+- 玩家主要排序：`power` 或 `mystic`。
+- 交付格式：對話摘要、CSV、Markdown、PDF 或其組合。
+- 使用者要求保留或刪除的章節。
 
-If the user says “中文玩家” without independent identity evidence, use **player-name language signals** and label the result as a visible lower bound, not a nationality census.
+若使用者只說「中文玩家」且沒有獨立身分證據，必須使用**玩家名稱的語言訊號**，並把結果標示為可見下限，不可稱為國籍普查。
 
-## Report Modes
+## 報告模式
 
-Choose one or both modes from the user's requested title or goal. They share live data, but they are separate PDFs unless the user asks to merge them.
+依使用者指定的標題或目的選擇一種或兩種模式。兩者可共用即時資料，但除非使用者要求合併，預設各自產生一份 PDF。
 
-1. **Mystic Top 100 kingdom analysis** — title `Kingshot 移民王國分析（Mystic 前 100 名樣本）`; use the transfer-group Top 100 to compare visible high-end depth, Power, Mystic, player and alliance concentration, leaderboard pressure, and migration tradeoffs. Use [assets/mystic-top100-kingdom-analysis-template.md](assets/mystic-top100-kingdom-analysis-template.md).
-2. **Full Chinese-player and kingdom investigation** — title pattern `Kingshot 轉組 K<min>–K<max>：中文玩家與王國完整調查`; audit every expected player in every kingdom and produce the complete direct-name ranking plus per-kingdom name coverage. Use [assets/transfer-report-template.md](assets/transfer-report-template.md).
+1. **Mystic 前 100 王國分析**：標題為 `Kingshot 移民王國分析（Mystic 前 100 名樣本）`。使用轉組前 100 名比較可見高端深度、Power、Mystic、玩家與聯盟集中度、榜單壓力和移民取捨。使用 [assets/mystic-top100-kingdom-analysis-template.md](assets/mystic-top100-kingdom-analysis-template.md)。
+2. **中文玩家與王國完整調查**：標題格式為 `Kingshot 轉組 K<最小>–K<最大>：中文玩家與王國完整調查`。逐名檢查每個王國的所有預期玩家，產生完整直接名稱排名與逐國名稱覆蓋。使用 [assets/transfer-report-template.md](assets/transfer-report-template.md)。
 
-Alliance concentration is permitted only as a kingdom power-structure metric in the first mode. Alliance names and tags must never identify an individual as Chinese or Taiwanese in either mode.
+第一種模式可把聯盟集中度當作王國權力結構指標；兩種模式都禁止用聯盟名稱或標籤判定個別玩家是中文或台灣玩家。
 
-## Live Data Collection
+## 即時資料蒐集
 
-1. Browse `https://ks-atlas.com/` and verify the current kingdom range, transfer-group ID, page labels, and data dates.
-2. Inspect the relevant kingdom, ranking, player-ranking, and transfer-hub pages. Prefer the visible page and its current network schema over cached endpoint assumptions.
-3. Capture, for every kingdom in scope:
-   - Kingdom profile and KvK preparation/battle record.
-   - Mystic Top 5, Top 20, and Top 100 metrics when available.
-   - Every visible Mystic Top 100 player with username, local rank, Mystic, Power, and snapshot date.
-   - Transfer-group Top 100 players when the group ID is available.
-4. Record the lookup time, source URL, source snapshot date, missing kingdoms, and endpoint errors.
-5. Use `scripts/fetch_ks_atlas.ps1` when the observed public API still matches its schema. If it differs, update the local extraction for the current task and disclose the mismatch; do not silently reuse stale fields.
+1. 瀏覽 `https://ks-atlas.com/`，確認目前的王國範圍、轉組 ID、頁面標籤與資料日期。
+2. 檢查相關王國頁、王國排名、玩家排名與轉組中心。優先依可見頁面與目前網路回應結構，不依賴過期的端點假設。
+3. 對範圍內每個王國蒐集：
+   - 王國資料與 KvK 備戰／對戰紀錄。
+   - 可取得時的 Mystic 前 5、前 20、前 100 指標。
+   - 每一位可見 Mystic 前 100 玩家：名稱、本國名次、Mystic、Power、快照日期。
+   - 可取得轉組 ID 時的轉組前 100 玩家。
+4. 保存查詢時間、來源 URL、來源快照日期、缺漏王國與端點錯誤。
+5. 觀察到的公開 API 仍符合結構時，可使用 `scripts/fetch_ks_atlas.ps1`。若結構不同，更新本次任務的擷取方式並揭露差異，不可悄悄沿用舊欄位。
 
-Do not claim complete coverage unless every kingdom and every expected player row passed validation.
+除非每個王國及每一筆預期玩家都通過驗證，不得宣稱完整覆蓋。
 
-## Player-Name Audit
+若使用者要在改名後繼續追蹤玩家，讀取 [references/player-id-registry.md](references/player-id-registry.md)。KS Atlas 榜單可能沒有 Player ID；不可從排名、王國、Power、名稱片段或第三方內部鍵猜 ID。取得可辯護的 ID 時，以遊戲內 `Governor ID`／`Player ID` 當身分主鍵，並保留舊名稱。
 
-Read [references/name-audit.md](references/name-audit.md) before classifying Chinese or Taiwanese player-name signals.
+需要查詢目前玩家名稱、王國、聯盟或 Governor ID 時，使用 `$kingshot-stats-data`；KS Atlas 負責轉組與 Mystic 快照，Kingshot Stats 負責身分與目前狀態，兩個來源日期必須分開記錄。
 
-The default invariant is strict: **judge from the player name only**. Alliance name, abbreviation, member concentration, or `TW` inside an alliance tag must not change an individual's language judgment or a kingdom's Chinese-player score. Alliance may remain as a location/contact field only when useful.
+## 玩家名稱判讀
 
-Give every player row an explicit classification, confidence, reason, and `direct_chinese_name` value. Manually review every included row and every Han, Bopomofo, `TW`, kana, Hangul, mixed-script, and pseudo-CJK candidate. Keep low-confidence romanization and single-Han candidates separate from the direct list.
+分類中文或台灣玩家名稱訊號前，先讀取 [references/name-audit.md](references/name-audit.md)。
 
-## Analysis and Ranking
+預設不變量：**只根據玩家名稱判讀**。聯盟名稱、縮寫、成員集中度或聯盟標籤內的 `TW` 都不能改變個別玩家的語言判斷，也不能提高王國中文玩家分數。聯盟只可當作定位或聯絡欄位。
 
-Read [references/report-method.md](references/report-method.md) for field definitions, comparison angles, and artifact schema.
+每位玩家都要有明確的分類、信心、理由和 `direct_chinese_name` 值。逐一人工檢查所有納入者，以及所有含漢字、注音、`TW`、假名、韓文、混合文字或偽 CJK 裝飾的候選。低信心羅馬拼音與單一漢字要和直接名單分開。
 
-- **Power** is the account's broad displayed combat strength.
-- **Mystic** is KS Atlas's Mystic Trial progression score and is better used as a high-end development/competition proxy. It is not Power.
-- Use the user's selected primary order. For equal primary values, use the other metric as the tie-breaker. Equal primary values share a competition rank.
-- Generate the full direct-name list with `scripts/rank_players.py`; do not hand-sort a long table.
-- Keep confirmed/direct name signals, low-confidence candidates, and no-visible-signal players separate.
-- Compare kingdoms from multiple angles rather than one opaque score: visible Chinese-name count, Chinese-name players in the local Top 20, transfer Top 100 representation, Power/Mystic depth, KvK results, activity pressure, recruitment status, and time-zone fit.
-- If the user requests player-name-only analysis, do not award alliance-based bonuses anywhere in the model or report.
+## 分析與排名
 
-## Reproducible Workflow
+欄位定義、比較角度與成果結構見 [references/report-method.md](references/report-method.md)。
 
-1. Fetch or transcribe the live KS Atlas snapshot.
-2. Normalize all player rows to the schema in [references/report-method.md](references/report-method.md).
-3. Complete the player-name audit and preserve its reasons.
-4. Run the dataset validator:
+- **Power** 是帳號顯示的整體戰力。
+- **Mystic** 是 KS Atlas 的 Mystic Trial 進度分數，較適合當高端養成與競爭壓力代理指標；它不是 Power。
+- 依使用者選定的主欄排序。主欄相同時以另一指標當次序；相同主欄值共用競賽名次。
+- 完整直接名稱名單用 `scripts/rank_players.py` 產生，不可人工排序長表格。
+- 已確認／直接名稱訊號、低信心候選、沒有可見訊號的玩家必須分開。
+- 從多個角度比較王國，不要壓成一個不透明總分：可見中文名稱數、本國前 20 的中文名稱玩家、轉組前 100 代表數、Power／Mystic 深度、KvK 成績、活動壓力、招募狀態、時區適配。
+- 使用者要求只看玩家名稱時，任何模型或報告都不能加入聯盟加分。
+
+## 可重建流程
+
+1. 抓取或抄錄即時 KS Atlas 快照。
+2. 依 [references/report-method.md](references/report-method.md) 正規化所有玩家列。
+3. 完成玩家名稱判讀並保存理由。有穩定 ID 時，以 `governor_id` 合併，並用 `scripts/upsert_player_registry.py` 保存名稱歷史。
+4. 執行資料驗證器：
 
    ```powershell
    uv run python <skill-dir>\scripts\validate_transfer_dataset.py players.csv --min-kingdom 1827 --max-kingdom 1883 --expected-per-kingdom 100
    ```
 
-5. Build the requested player ranking:
+5. 產生指定的玩家排名：
 
    ```powershell
    uv run python <skill-dir>\scripts\rank_players.py players.csv chinese-players-by-power.csv --sort-by power
    ```
 
-6. Draft the report using [assets/transfer-report-template.md](assets/transfer-report-template.md). Lead with recommendations and tradeoffs, then show the evidence.
-7. Re-run the validator with `--ranking` after generating the ranking CSV.
-8. If PDF is requested, render the Markdown or HTML, inspect representative pages and table boundaries, and verify searchable text before delivery.
+6. 依 [assets/transfer-report-template.md](assets/transfer-report-template.md) 撰寫報告。先給建議與取捨，再呈現證據。
+7. 產生排名 CSV 後，以 `--ranking` 重跑驗證器。
+8. 使用者要求 PDF 時，渲染 Markdown 或 HTML，檢查代表頁、表格邊界與文字可搜尋性後才交付。
 
-## Report Rules
+## 報告規則
 
-- Use Traditional Chinese unless the user requests another language.
-- State the exact kingdom range, transfer group, lookup date, and per-source snapshot dates.
-- Explain Power versus Mystic before using either for recommendations.
-- Label name-derived counts as `玩家名稱可見下限` and never call them verified nationalities.
-- State that English-named Chinese-speaking players are not detectable from names alone.
-- Show the complete player ranking when requested; do not substitute a Top 10 excerpt.
-- Keep the chosen primary ranking column visually first.
-- Integrate corrections into the relevant table or summary unless the user asks for a separate correction section.
-- Omit tables the user does not want. Do not preserve a generic kingdom-competition table merely because a template contains it.
-- Cite direct KS Atlas pages near current factual claims and label the site unofficial.
-- Do not present an old PDF, Dropbox file, or short URL as current after the report changes.
+- 除非使用者指定其他語言，使用繁體中文。
+- 標示完整王國範圍、轉組、查詢日期與各來源快照日期。
+- 用 Power 或 Mystic 做建議前先解釋兩者差異。
+- 名稱推導出的數量標為 `玩家名稱可見下限`，不可稱為已驗證國籍。
+- 說明使用英文名稱的華語玩家無法只靠名稱偵測。
+- 使用者要求完整排名時，必須列出全部，不可以 Top 10 節錄代替。
+- 選定的主要排名欄位在視覺上放最前面。
+- 更正內容要整合回相關表格或摘要；除非使用者要求，不另設孤立的更正章節。
+- 使用者不要的表格就刪除；不要因模板存在而保留通用王國競爭力表。
+- 目前資料主張旁要引用 KS Atlas 直接頁面，並標明非官方來源。
+- 報告更新後，舊 PDF、Dropbox 檔案或短網址不可再稱為最新版。
 
-## Mystic Top 100 PDF Content Contract
+## Mystic 前 100 PDF 內容契約
 
-When the user asks for `Kingshot 移民王國分析`, the PDF must use the transfer-group Mystic Top 100 as a clearly labeled censored sample, not as the complete population of every kingdom. It must contain:
+使用者要求 `Kingshot 移民王國分析` 時，PDF 必須把轉組 Mystic 前 100 明確標成截尾樣本，不可假裝是每國完整人口。必須包含：
 
-1. **先講結論** — recommend a balanced default plus alternatives for high-end strength, distributed power, stable growth, strongest Mystic front line, and lower personal-ranking pressure. State that the final fit depends on the user's Power, Mystic, spending, language, and goals.
-2. **樣本口徑與 Power／Mystic** — give the group, snapshot date, Top 100 row count, kingdom coverage, Power-versus-Mystic explanation, and the warning that sample totals are not whole-kingdom totals.
-3. **核心王國比較** — compare only the relevant leading or shortlisted kingdoms with `王國／前百人數／樣本總戰力／Mystic 合計／轉組前 20 人數／最強單人戰力占比／最大聯盟 Mystic 占比／結構判讀`.
-4. **從不同目標看** — separate recommendations for `想打王國戰、跟強車`, `想要健康的高端分布`, `想拿個人活動排名`, and `想加入權力中心、少處理多盟政治`.
-5. **建議 shortlist** — a table with `優先級／王國／適合對象／移民前最大確認點`.
-6. **這份榜單不能回答的關鍵問題** — list the missing live facts to request before migrating: recent KvK results, top-alliance power and activity, event times and languages, NAP and castle rotation, rally-leader quality, immigration cap/invitations, and planned departures.
-7. **判讀限制** — state that the ranking is truncated, sample aggregates do not equal kingdom strength, alliance concentration does not prove cooperation or nationality, and the user's ability to enter a target alliance still matters.
-8. **資料來源與快照** — link the KS Atlas player ranking and the relevant kingdom or ranking pages, and label the source unofficial.
+1. **先講結論**：推薦一個均衡預設，以及高端強度、分散權力、穩定成長、最強 Mystic 前線、較低個人排名壓力等替代方案。說明最終適配仍取決於使用者的 Power、Mystic、課金、語言與目標。
+2. **樣本口徑與 Power／Mystic**：列出轉組、快照日期、前 100 筆數、王國覆蓋、Power／Mystic 差異，以及樣本合計不是王國總量的警告。
+3. **核心王國比較**：只比較領先或入選王國，欄位為 `王國／前百人數／樣本總戰力／Mystic 合計／轉組前 20 人數／最強單人戰力占比／最大聯盟 Mystic 占比／結構判讀`。
+4. **從不同目標看**：分開討論 `想打王國戰、跟強車`、`想要健康的高端分布`、`想拿個人活動排名`、`想加入權力中心、少處理多盟政治`。
+5. **建議 shortlist**：表格欄位為 `優先級／王國／適合對象／移民前最大確認點`。
+6. **這份榜單不能回答的關鍵問題**：移民前仍要取得近期 KvK、頂盟戰力與活躍、活動時間與語言、NAP 與王城輪替、車頭品質、移民名額／邀請、預計離開名單。
+7. **判讀限制**：說明榜單被截尾、樣本合計不等於王國戰力、聯盟集中度不證明合作或國籍，以及使用者能否進入目標聯盟仍很重要。
+8. **資料來源與快照**：連結 KS Atlas 玩家排名、相關王國或排名頁，並標明非官方。
 
-Add `如果優先尋找中文／台灣玩家` only when requested. Classify that section from player names only; do not reuse alliance tags such as `CTW`, `TWN`, or `PIR` as identity evidence. If only the transfer Top 100 is available, label it as a very narrow visible lower bound and recommend the full Chinese-player mode for complete range coverage.
+只有使用者要求時才加入 `如果優先尋找中文／台灣玩家`。該節仍只依玩家名稱分類，不可把 `CTW`、`TWN`、`PIR` 等聯盟標籤當身分證據。只有轉組前 100 時，要標為非常狹窄的可見下限，並建議使用完整中文玩家模式。
 
-Before rendering, verify that kingdom sample counts sum to the declared ranking row count (normally 100), every aggregate is computed from the same snapshot, concentration percentages use documented denominators, shortlist claims match the comparison table, and the PDF tables are searchable and unclipped. If fewer than 100 rows are available, disclose the incomplete snapshot and do not call it a complete Top 100.
+渲染前驗證：各國樣本數總和等於宣告筆數（通常 100）、所有合計來自同一快照、集中比例分母有文件、shortlist 主張與比較表一致、PDF 表格可搜尋且沒有裁切。少於 100 筆時要揭露不完整快照，不能稱為完整前 100。
 
-## Full Chinese-Player PDF Content Contract
+## 中文玩家完整調查 PDF 內容契約
 
-When the user asks for a `中文玩家與王國完整調查`, a complete migration PDF, or the K1827–K1883 report, the PDF is a full deliverable rather than a short summary. Use this exact title pattern:
+使用者要求 `中文玩家與王國完整調查`、完整移民 PDF 或 K1827–K1883 報告時，必須做成完整交付物，不是短摘要。標題格式固定為：
 
 ```text
-Kingshot 轉組 K<min>–K<max>：中文玩家與王國完整調查
+Kingshot 轉組 K<最小>–K<最大>：中文玩家與王國完整調查
 ```
 
-The PDF must contain all of these sections unless the user explicitly removes one:
+除非使用者明確刪除，必須包含：
 
-1. **結論先講** — name the primary and alternative kingdoms by objective, with the supporting Chinese-name, Mystic, Power, and KvK facts plus each choice's main cost.
-2. **各角度移民建議** — a compact table with `偏好／優先王國／為什麼／主要代價`; do not reduce the recommendation to one opaque overall score.
-3. **全量逐名判讀口徑** — state the exact kingdom count, expected players per kingdom, total audited rows, T/Z/B/H/R/J/E/D/N category counts, direct-name lower bound, and the rule that alliance names were not evidence.
-4. **Power 與 Mystic** — explain the difference and state which one controls the full player ranking; never present Mystic as combat Power.
-5. **轉組前 100 的直接中文／台灣名稱** — list every matching player, not only the highest one, with transfer rank, kingdom, player, Mystic, Power, and judgment. Say explicitly when there are no matches.
-6. **中文名稱玩家完整排名** — include every `direct_chinese_name=true` row, never a Top 10 excerpt. If sorted by Power, show `戰力名次／王國／玩家／戰力／Mystic／本國 Mystic 名次／名稱判讀`; if sorted by Mystic, place Mystic rank and Mystic first, then Power.
-7. **每個王國的玩家名稱分析** — exactly one row for every kingdom in range, including direct Chinese-name count, direct-name players in the local Mystic Top 20, transfer Top 100 count, and visible examples. For K1827–K1883 this is the `57 國玩家名稱覆蓋表`.
-8. **限制與移民前核對** — disclose snapshot dates, missing or small KvK samples, name-only undercount, English-name blind spots, and the in-game questions to verify: Chinese chat activity, UTC+8 event times, recruitment, NAP, castle rotation, and reward policy.
-9. **資料來源** — link KS Atlas directory, kingdom rankings, player rankings, transfer hub or relevant kingdom pages, and label KS Atlas unofficial.
-10. **可重建資料** — name the raw snapshot, audited player CSV, selected ranking CSV, and per-kingdom summary used to make the PDF.
+1. **結論先講**：依不同目標列出主要與替代王國，用中文名稱、Mystic、Power、KvK 事實支持，並寫出各選項最大代價。
+2. **各角度移民建議**：精簡表格 `偏好／優先王國／為什麼／主要代價`；不可只給一個不透明總分。
+3. **全量逐名判讀口徑**：列出王國數、每國預期玩家、總判讀筆數、T/Z/B/H/R/J/E/D/N 類別數、直接名稱下限，以及聯盟名稱不是證據。
+4. **Power 與 Mystic**：解釋差異並說明完整玩家排名由哪個欄位控制；不可把 Mystic 當成戰力。
+5. **轉組前 100 的直接中文／台灣名稱**：列出所有符合玩家，不只最高者；欄位含轉組名次、王國、玩家、Mystic、Power、判讀。沒有符合者也要明說。
+6. **中文名稱玩家完整排名**：包含每一筆 `direct_chinese_name=true`，不得縮成 Top 10。依 Power 排序時顯示 `戰力名次／王國／玩家／戰力／Mystic／本國 Mystic 名次／名稱判讀`；依 Mystic 排序時把 Mystic 名次和 Mystic 放前面，再列 Power。
+7. **每個王國的玩家名稱分析**：範圍內每個王國恰好一列，包含直接中文名稱數、本國 Mystic 前 20 直接名稱玩家、轉組前 100 人數與可見例子。K1827–K1883 即 `57 國玩家名稱覆蓋表`。
+8. **限制與移民前核對**：揭露快照日期、缺漏或過小的 KvK 樣本、名稱低估、英文名稱盲點，以及需在遊戲內確認的中文聊天活躍、UTC+8 活動時間、招募、NAP、王城輪替與獎勵政策。
+9. **資料來源**：連結 KS Atlas 目錄、王國排名、玩家排名、轉組中心或相關王國頁，並標明非官方。
+10. **可重建資料**：列出製作 PDF 使用的原始快照、已判讀玩家 CSV、選定排名 CSV 與逐國摘要。
 
-The per-kingdom player-name coverage is required in a full report; a generic `57 國競爭力表` is not. Use kingdom Power, Mystic, and KvK facts inside recommendations, but do not add a separate all-kingdom competitiveness table unless the user asks for it.
+逐國名稱覆蓋是完整報告的必要內容；通用 `57 國競爭力表` 不是。王國 Power、Mystic、KvK 可用於建議，但除非使用者要求，不另加全王國競爭力表。
 
-Before rendering, verify these reconciliation rules:
+渲染前驗證：
 
-- The complete ranking row count equals the direct-name total in the methodology table.
-- The sum of per-kingdom direct-name counts equals that same total.
-- Every kingdom in the requested inclusive range appears exactly once in the coverage table.
-- The player table is actually ordered by the user's selected primary metric and retains the other metric as the tie-breaker.
-- The conclusions use the same snapshot and counts as the tables; do not preserve old recommendations after the dataset changes.
-- The PDF has searchable text, no clipped tables, repeated table headers where needed, and page breaks that keep headings with their first content row.
+- 完整排名筆數等於方法表中的直接名稱總數。
+- 逐國直接名稱數加總等於同一總數。
+- 範圍內每個王國恰好出現一次。
+- 玩家表確實按使用者指定的主要指標排序，另一指標保留為次序。
+- 結論和表格使用相同快照與數量；資料更新後不可保留舊結論。
+- PDF 文字可搜尋、表格無裁切、需要時重複表頭，且標題不與第一列內容分頁。
 
-## Publication Boundary
+## 發布邊界
 
-Creating local artifacts does not authorize uploading, overwriting a public file, changing share permissions, creating a short URL, or publishing to another repository. Obtain explicit authorization for the exact current payload immediately before each external publication step. If a public report expands to include player names, Power, Mystic, or another detailed roster, describe that expansion before requesting authorization.
+建立本機成果不等於獲准上傳、覆寫公開檔案、修改分享權限、建立短網址或發布到其他儲存庫。每次對外發布前，都要針對目前這一版內容取得明確授權。若公開報告新增玩家名稱、Power、Mystic、Governor ID 或其他詳細名冊，請先向使用者說明新增範圍再取得授權。

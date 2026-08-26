@@ -12,6 +12,7 @@ Marketplace 與 Plugin 的識別名稱皆為 `kingshot-tools`，但介面上會�
 | `$kingshot-event-report` | 確認玩家現況後，建立可重算的活動禮包邊際 CP 報告 |
 | `$kingshot-packs-data` | 查詢並交叉核對禮包價格、內容與伺服器階段差異 |
 | `$kingshot-value-calc` | 將禮包物品換算為鑽石，計算每美元買到的 CP 價值 |
+| `$kingshot-stats-data` | 依名稱或 Governor ID 查玩家目前王國、聯盟、Power、Mystic 與排名 |
 | `$kingshot-transfer-report` | 調查轉組範圍、王國強度與中文玩家名稱，產生移民報告 |
 | `$kingshot-translation-pairs` | 核對繁中與英文遊戲專有名稱，安全保存已確認的名稱配對 |
 
@@ -51,6 +52,10 @@ codex plugin marketplace add "C:\path\to\kingshot-tools"
 ```
 
 ```text
+使用 $kingshot-stats-data 依 Governor ID 查詢這位玩家目前的名稱、王國、聯盟、Power、Mystic 與資料時間。
+```
+
+```text
 使用 $kingshot-transfer-report 調查我的移民區間，並產生繁體中文移民報告。
 ```
 
@@ -60,7 +65,7 @@ codex plugin marketplace add "C:\path\to\kingshot-tools"
 
 ## 資料與判讀原則
 
-- 活動資料來自 [Kingshot Mastery](https://kingshotmastery.com/events)，禮包與估值資料來自 [KingshotPacks](https://kingshotpacks.com/)，移民資料來自 [KS Atlas](https://ks-atlas.com/)。這些都是非官方第三方來源。
+- 活動資料來自 [Kingshot Mastery](https://kingshotmastery.com/events)，禮包與估值資料來自 [KingshotPacks](https://kingshotpacks.com/)，移民資料來自 [KS Atlas](https://ks-atlas.com/)，玩家身分與目前狀態可由 [Kingshot Stats](https://www.kingshotstats.com/) 交叉核對。這些都是非官方第三方來源。
 - 活動規則、禮包內容與獎勵可能因伺服器進度或版本而異；玩家當下的遊戲畫面與可辨識截圖具有較高優先度。
 - 活動報告會把目前不加購的成果與追加購買帶來的邊際收益分開，避免把既有資源誤算成禮包價值。
 - 未確認的中英文專有名稱不會自行猜譯；新配對寫入前會檢查衝突。
@@ -77,6 +82,7 @@ codex plugin marketplace add "C:\path\to\kingshot-tools"
       ├─ kingshot-event-data/
       ├─ kingshot-event-report/
       ├─ kingshot-packs-data/
+      ├─ kingshot-stats-data/
       ├─ kingshot-transfer-report/
       ├─ kingshot-translation-pairs/
       └─ kingshot-value-calc/

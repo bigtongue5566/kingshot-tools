@@ -10,7 +10,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 if ($MinKingdom -gt $MaxKingdom) {
-    throw 'MinKingdom must be less than or equal to MaxKingdom.'
+    throw 'MinKingdom 必須小於或等於 MaxKingdom。'
 }
 
 function Get-AtlasJson {
@@ -108,7 +108,7 @@ if ($outputDirectory) {
     [System.IO.Directory]::CreateDirectory($outputDirectory) | Out-Null
 }
 $payload | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath $resolvedOutput -Encoding utf8
-Write-Output "Saved $($payload.kingdoms.Count) kingdoms to $resolvedOutput"
+Write-Output "已將 $($payload.kingdoms.Count) 個王國儲存至 $resolvedOutput"
 if ($errors.Count -gt 0) {
-    throw "KS Atlas returned errors for $($errors.Count) kingdom(s): $(@($errors.kingdom_number) -join ', ')"
+    throw "KS Atlas 有 $($errors.Count) 個王國回傳錯誤：$(@($errors.kingdom_number) -join ', ')"
 }

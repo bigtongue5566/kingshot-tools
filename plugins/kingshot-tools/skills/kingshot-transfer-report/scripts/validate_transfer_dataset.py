@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate an audited Kingshot transfer-range player dataset and ranking."""
+"""驗證已完成名稱判讀的 Kingshot 轉組玩家資料與排名。"""
 
 from __future__ import annotations
 
@@ -57,7 +57,7 @@ def numeric(value: Any, field: str, row_number: int, errors: list[str]) -> float
     try:
         return float(text)
     except ValueError:
-        errors.append(f"row {row_number}: invalid {field} value {value!r}")
+        errors.append(f"第 {row_number} 列：{field} 數值無效：{value!r}")
         return float("-inf")
 
 
@@ -66,7 +66,7 @@ def integer(value: Any, field: str, row_number: int, errors: list[str]) -> int |
     if number == float("-inf"):
         return None
     if not number.is_integer():
-        errors.append(f"row {row_number}: {field} must be an integer, got {value!r}")
+        errors.append(f"第 {row_number} 列：{field} 必須是整數，目前為 {value!r}")
         return None
     return int(number)
 
@@ -75,8 +75,15 @@ def is_true(value: Any) -> bool:
     return str(value or "").strip().lower() in TRUE_VALUES
 
 
-def player_key(row: dict[str, str]) -> tuple[str, str]:
-    return (str(row.get("kingdom", "")).strip(), str(row.get("player", "")).strip())
+def player_key(row: dict[str, str]) -> tuple[str, ...]:
+    governor_id = str(row.get("governor_id", "")).strip()
+    if governor_id:
+        return ("governor_id", governor_id)
+    return (
+        "kingdom_player",
+        str(row.get("kingdom", "")).strip(),
+        str(row.get("player", "")).strip(),
+    )
 
 
 def validate_ranking(
@@ -90,7 +97,7 @@ def validate_ranking(
     ranking_required = {"kingdom", "player", "power", "mystic", rank_field}
     missing = sorted(ranking_required - set(fields))
     if missing:
-        errors.append(f"ranking missing required columns: {', '.join(missing)}")
+        errors.append(f"排名檔缺少必要欄位：{', '.join(missing)}")
         return
 
     expected_keys = Counter(player_key(row) for row in direct_rows)
@@ -99,9 +106,9 @@ def validate_ranking(
         missing_keys = sorted((expected_keys - actual_keys).elements())
         extra_keys = sorted((actual_keys - expected_keys).elements())
         if missing_keys:
-            errors.append(f"ranking missing {len(missing_keys)} direct rows; first: {missing_keys[0]!r}")
+            errors.append(f"排名檔缺少 {len(missing_keys)} 筆直接名稱列；第一筆：{missing_keys[0]!r}")
         if extra_keys:
-            errors.append(f"ranking has {len(extra_keys)} unexpected rows; first: {extra_keys[0]!r}")
+            errors.append(f"排名檔多出 {len(extra_keys)} 筆非預期列；第一筆：{extra_keys[0]!r}")
 
     primary = sort_by
     secondary = "mystic" if primary == "power" else "power"
@@ -116,8 +123,8 @@ def validate_ranking(
     for position in range(1, len(values)):
         if values[position - 1] < values[position]:
             errors.append(
-                f"ranking rows {position + 1}-{position + 2} are not sorted by "
-                f"descending {primary}, then {secondary}"
+                f"排名檔第 {position + 1}-{position + 2} 列沒有依 {primary} 由高到低，"
+                f"再依 {secondary} 排序"
             )
             break
 
@@ -131,8 +138,8 @@ def validate_ranking(
             previous_primary = primary_value
         if actual_rank is not None and actual_rank != expected_rank:
             errors.append(
-                f"ranking row {position + 1}: {rank_field} is {actual_rank}; "
-                f"expected competition rank {expected_rank}"
+                f"排名檔第 {position + 1} 列：{rank_field} 為 {actual_rank}；"
+                f"預期競賽名次為 {expected_rank}"
             )
 
 
@@ -140,20 +147,20 @@ def main() -> int:
     args = parse_args()
     errors: list[str] = []
     if args.min_kingdom > args.max_kingdom:
-        errors.append("--min-kingdom cannot exceed --max-kingdom")
+        errors.append("--min-kingdom 不可大於 --max-kingdom")
     if args.expected_per_kingdom < 1:
-        errors.append("--expected-per-kingdom must be at least 1")
+        errors.append("--expected-per-kingdom 至少必須為 1")
 
     fields, rows = read_csv(args.players_csv)
     missing_fields = sorted(REQUIRED_FIELDS - set(fields))
     if missing_fields:
-        errors.append(f"dataset missing required columns: {', '.join(missing_fields)}")
+        errors.append(f"資料檔缺少必要欄位：{', '.join(missing_fields)}")
         for error in errors:
-            print(f"ERROR: {error}")
+            print(f"錯誤：{error}")
         return 1
 
     counts: Counter[int] = Counter()
-    keys: Counter[tuple[str, str]] = Counter()
+    keys: Counter[tuple[str, ...]] = Counter()
     local_rank_keys: Counter[tuple[int, int]] = Counter()
     direct_rows: list[dict[str, str]] = []
     for row_number, row in enumerate(rows, start=2):
@@ -167,14 +174,27 @@ def main() -> int:
         if kingdom is not None:
             counts[kingdom] += 1
             if kingdom < args.min_kingdom or kingdom > args.max_kingdom:
-                errors.append(f"row {row_number}: kingdom {kingdom} is outside requested range")
+                errors.append(f"第 {row_number} 列：王國 {kingdom} 超出指定範圍")
             if local_rank is not None:
                 local_rank_keys[(kingdom, local_rank)] += 1
 
         key = player_key(row)
         keys[key] += 1
-        if not key[1]:
-            errors.append(f"row {row_number}: player is empty")
+        if not str(row.get("player", "")).strip():
+            errors.append(f"第 {row_number} 列：player 為空")
+
+        governor_id = str(row.get("governor_id", "")).strip()
+        tracker_uid = str(row.get("tracker_uid", "")).strip()
+        if governor_id:
+            if not governor_id.isdecimal() or int(governor_id) < 1:
+                errors.append(f"第 {row_number} 列：governor_id 必須是正十進位整數")
+            for provenance_field in ("id_match_status", "id_source", "id_last_checked"):
+                if provenance_field not in fields or not str(row.get(provenance_field, "")).strip():
+                    errors.append(
+                        f"第 {row_number} 列：有 governor_id 時必須填寫 {provenance_field}"
+                    )
+        if tracker_uid and (not tracker_uid.isdecimal() or int(tracker_uid) < 1):
+            errors.append(f"第 {row_number} 列：tracker_uid 必須是正十進位整數")
 
         for field in (
             "judgment_code",
@@ -185,48 +205,48 @@ def main() -> int:
             "snapshot_date",
         ):
             if not str(row.get(field, "")).strip():
-                errors.append(f"row {row_number}: {field} is empty")
+                errors.append(f"第 {row_number} 列：{field} 為空")
 
         judgment_code = str(row.get("judgment_code", "")).strip().upper()
         if judgment_code and judgment_code not in JUDGMENT_CODES:
-            errors.append(f"row {row_number}: unknown judgment_code {judgment_code!r}")
+            errors.append(f"第 {row_number} 列：未知 judgment_code {judgment_code!r}")
 
         direct_value = str(row.get("direct_chinese_name", "")).strip().lower()
         if direct_value not in TRUE_VALUES | FALSE_VALUES:
             errors.append(
-                f"row {row_number}: direct_chinese_name must be an explicit boolean, "
-                f"got {row.get('direct_chinese_name')!r}"
+                f"第 {row_number} 列：direct_chinese_name 必須是明確布林值，"
+                f"目前為 {row.get('direct_chinese_name')!r}"
             )
 
         if "review_status" in fields:
             review_status = str(row.get("review_status", "")).strip().lower()
             if review_status in PENDING_VALUES:
-                errors.append(f"row {row_number}: review_status is still {review_status!r}")
+                errors.append(f"第 {row_number} 列：review_status 仍為 {review_status!r}")
 
         if is_true(row.get("direct_chinese_name")):
             direct_rows.append(row)
             reason = str(row.get("reason", ""))
             if any(pattern.search(reason) for pattern in FORBIDDEN_ALLIANCE_EVIDENCE):
                 errors.append(
-                    f"row {row_number}: direct judgment reason appears to infer from alliance evidence"
+                    f"第 {row_number} 列：直接名稱判讀理由疑似使用聯盟證據"
                 )
 
     duplicate_keys = [key for key, count in keys.items() if count > 1]
     if duplicate_keys:
-        errors.append(f"duplicate kingdom/player rows: {len(duplicate_keys)}; first: {duplicate_keys[0]!r}")
+        errors.append(f"重複玩家身分共 {len(duplicate_keys)} 筆；第一筆：{duplicate_keys[0]!r}")
 
     duplicate_local_ranks = [key for key, count in local_rank_keys.items() if count > 1]
     if duplicate_local_ranks:
         errors.append(
-            f"duplicate kingdom/local_mystic_rank rows: {len(duplicate_local_ranks)}; "
-            f"first: {duplicate_local_ranks[0]!r}"
+            f"重複 kingdom/local_mystic_rank 共 {len(duplicate_local_ranks)} 筆；"
+            f"第一筆：{duplicate_local_ranks[0]!r}"
         )
 
     expected_kingdoms = range(args.min_kingdom, args.max_kingdom + 1)
     for kingdom in expected_kingdoms:
         if counts[kingdom] != args.expected_per_kingdom:
             errors.append(
-                f"K{kingdom} has {counts[kingdom]} rows; expected {args.expected_per_kingdom}"
+                f"K{kingdom} 有 {counts[kingdom]} 列；預期 {args.expected_per_kingdom} 列"
             )
 
     if args.ranking:
@@ -234,13 +254,13 @@ def main() -> int:
 
     if errors:
         for error in errors:
-            print(f"ERROR: {error}")
-        print(f"Validation failed with {len(errors)} error(s).")
+            print(f"錯誤：{error}")
+        print(f"驗證失敗，共 {len(errors)} 個錯誤。")
         return 1
 
     print(
-        f"Validated {len(rows)} rows across {len(counts)} kingdoms; "
-        f"{len(direct_rows)} direct Chinese-name rows."
+        f"已驗證 {len(rows)} 列、{len(counts)} 個王國；"
+        f"其中 {len(direct_rows)} 列為直接中文名稱。"
     )
     return 0
 

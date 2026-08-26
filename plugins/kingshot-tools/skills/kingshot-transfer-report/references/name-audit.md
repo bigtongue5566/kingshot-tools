@@ -1,52 +1,52 @@
-# Player-name audit
+# 玩家名稱判讀
 
-Use this guide only when the request asks for Chinese, Taiwanese, or language-community signals from player names.
+只有在需求涉及中文、台灣或語言社群的名稱訊號時使用本文件。
 
-## Core boundary
+## 核心邊界
 
-A name is evidence about the visible name, not verified nationality, residence, language ability, or identity. Report all counts as a lower bound from public names.
+名稱只能證明畫面上可見的名稱，不能驗證國籍、居住地、語言能力或身分。所有數量都必須標為公開名稱的可見下限。
 
-By default, use only `player`. Do not use `alliance`, alliance abbreviations, alliance member concentration, kingdom chat assumptions, or a `TW` alliance tag as individual evidence. If the user explicitly asks for alliance analysis, present it in a separate section and never merge it into the player-name classification.
+預設只使用 `player`。不得使用 `alliance`、聯盟縮寫、聯盟成員集中度、王國聊天假設或聯盟標籤中的 `TW` 當個人證據。使用者明確要求聯盟分析時，放在另一節，且不可混入玩家名稱分類。
 
-## Suggested codes
+## 建議代碼
 
-| Code | Meaning | Direct list | Guidance |
+| 代碼 | 意義 | 直接名單 | 判讀方式 |
 |---|---|---:|---|
-| T | Explicit Taiwan or strong Taiwan-language name signal | Yes | Player name contains 台灣／臺灣／Taiwan／standalone TW／Taiwan flag, or a manually verified Taiwanese expression. |
-| Z | Clear Chinese-language Han name | Yes | At least two substantive Han characters with understandable Chinese-language content and no stronger Japanese/Korean context. |
-| B | Bopomofo or Taiwan input signal | Usually yes | Review manually; Bopomofo-shaped decorative Latin substitutions are false positives. |
-| H | Single Han character or cross-language Han ambiguity | No | Keep as a low-confidence candidate unless additional player-name evidence exists. |
-| R | Romanized Chinese candidate | No | `Lin`, `Ming`, `Wei`, and similar forms are highly ambiguous. Do not add them to the direct count. |
-| J | Japanese or anime-name context | No | Kana, Japanese names, or clearly Japanese lexical context. This still does not prove nationality. |
-| E | Korean or other East Asian script context | No | Hangul or another stronger non-Chinese name signal. |
-| D | Pseudo-CJK decoration | No | Stylized Latin letters, repeated radicals, clan wrappers, or decorative glyphs. |
-| N | No visible Chinese-language signal | No | Do not describe the person as non-Chinese; the name is simply uninformative. |
+| T | 明確台灣或強烈台灣語言名稱訊號 | 是 | 玩家名稱含台灣／臺灣／Taiwan／獨立 TW／台灣旗，或人工確認的台灣用語。 |
+| Z | 清楚的中文漢字名稱 | 是 | 至少兩個有實質內容且可理解的漢字，沒有更強的日文或韓文語境。 |
+| B | 注音或台灣輸入訊號 | 通常是 | 必須人工檢查；形似注音的裝飾拉丁字可能誤判。 |
+| H | 單一漢字或跨語言漢字歧義 | 否 | 除非玩家名稱有其他證據，保留為低信心候選。 |
+| R | 中文羅馬拼音候選 | 否 | `Lin`、`Ming`、`Wei` 等高度歧義，不加入直接數量。 |
+| J | 日文或動漫名稱語境 | 否 | 假名、日文姓名或明顯日文詞彙；同樣不能證明國籍。 |
+| E | 韓文或其他東亞文字語境 | 否 | 韓文或更強的非中文名稱訊號。 |
+| D | 偽 CJK 裝飾 | 否 | 造型拉丁字、重複部件、固定外框或裝飾字形。 |
+| N | 沒有可見中文語言訊號 | 否 | 不可說此人不是中文玩家，只能說名稱沒有資訊。 |
 
-## Manual review set
+## 必須人工檢查的集合
 
-Review every row containing any of these before finalizing:
+最終輸出前逐筆檢查：
 
-- Han characters, Bopomofo, standalone `TW`, `Taiwan`, `Formosa`, or a Taiwan flag.
-- Kana, Hangul, or mixed Han plus Japanese/Korean script.
-- CJK compatibility glyphs, pseudo-CJK styled Latin letters, repeated radicals, or shared decorative wrappers.
-- Romanized names proposed as Chinese candidates.
-- Every row ultimately included in the direct list.
+- 含漢字、注音、獨立 `TW`、`Taiwan`、`Formosa` 或台灣旗。
+- 假名、韓文、漢字混合日文／韓文。
+- CJK 相容字形、偽 CJK 拉丁字、重複部件或共用裝飾外框。
+- 被提議為中文候選的羅馬拼音名稱。
+- 每一筆最後加入直接名單的玩家。
 
-Normalize Unicode with NFKC for matching, but preserve the original visible name in output. Strip only verified decorative wrappers for analysis; never mutate the displayed name.
+比對時可用 NFKC 正規化 Unicode，但輸出要保留原始可見名稱。只可移除已確認的裝飾外框來分析，不可修改顯示名稱。
 
-## Required audit columns
+## 必要判讀欄位
 
 ```text
 kingdom,local_mystic_rank,transfer_group_rank,player,mystic,power,
 judgment_code,judgment,confidence,reason,direct_chinese_name,snapshot_date
 ```
 
-An alliance column may exist for locating the player, but it must never be cited as affirmative evidence or determine `direct_chinese_name`. A reason may describe a wrapper inside the visible player name only when the remaining name evidence is stated explicitly.
+可保留聯盟欄位方便定位，但不可把聯盟當正面證據，也不可讓它決定 `direct_chinese_name`。理由可描述玩家名稱內的裝飾外框，但必須明說去除後剩下的名稱證據。
 
-## Quality check
+## 品質檢查
 
-- Every input player has exactly one audit row.
-- Every direct row has a concrete player-name reason and confidence.
-- Low-confidence rows do not inflate direct counts.
-- Japanese/Korean and decorative false positives were reviewed, not excluded solely by a broad Unicode range.
-- The report states that English-named Chinese-speaking players remain undetectable.
+- 每位輸入玩家恰好有一筆判讀。
+- 每一筆直接名稱都有具體玩家名稱理由與信心。
+- 低信心列不會提高直接數量。
+- 日文、韓文與裝飾假陽性經過人工檢查，不是只用寬泛 Unicode 範圍排除。
+- 報告說明英文名稱的華語玩家仍無法被名稱判讀偵測。

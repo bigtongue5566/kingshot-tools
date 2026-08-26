@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create or update a Kingshot player registry keyed by in-game Governor ID."""
+"""以遊戲內 Governor ID 建立或更新 Kingshot 玩家名冊。"""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ def positive_digits(value: str, label: str, *, allow_blank: bool = False) -> str
     if allow_blank and not text:
         return ""
     if not text.isdecimal() or int(text) < 1:
-        raise argparse.ArgumentTypeError(f"{label} must be a positive decimal integer")
+        raise argparse.ArgumentTypeError(f"{label} 必須是正十進位整數")
     return text
 
 
@@ -56,7 +56,7 @@ def read_registry(path: Path) -> list[dict[str, str]]:
         fields = list(reader.fieldnames or [])
         if fields != FIELDS:
             raise SystemExit(
-                "registry columns do not match the expected schema: " + ",".join(FIELDS)
+                "名冊欄位不符合預期結構：" + ",".join(FIELDS)
             )
         return list(reader)
 
@@ -73,12 +73,12 @@ def main() -> int:
     rank_hint = positive_digits(args.rank_hint, "rank_hint", allow_blank=True)
     current_name = args.current_name.strip()
     if not current_name:
-        raise SystemExit("current_name cannot be empty")
+        raise SystemExit("current_name 不可為空")
 
     rows = read_registry(args.registry_csv)
     matching = [row for row in rows if row["governor_id"].strip() == governor_id]
     if len(matching) > 1:
-        raise SystemExit(f"duplicate governor_id already exists: {governor_id}")
+        raise SystemExit(f"名冊已有重複 governor_id：{governor_id}")
 
     if matching:
         row = matching[0]
@@ -121,7 +121,7 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"Saved {len(rows)} registry row(s); updated governor_id {governor_id}.")
+    print(f"已儲存 {len(rows)} 筆名冊；更新 governor_id {governor_id}。")
     return 0
 
 

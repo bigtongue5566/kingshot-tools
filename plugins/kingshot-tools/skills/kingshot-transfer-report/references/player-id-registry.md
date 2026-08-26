@@ -1,33 +1,33 @@
-# Player ID registry
+# 玩家 ID 名冊
 
-Use this reference when the user wants to identify the same Kingshot account after a player changes their visible name.
+使用者希望玩家改名後仍能辨識同一帳號時，使用本文件。
 
-## Identity boundary
+## 身分邊界
 
-- Use the in-game `Governor ID` / `Player ID` as the primary key. Store it as `governor_id`.
-- Treat `tracker_uid` as a separate third-party database key. It must never replace or be presented as the in-game ID.
-- Names, kingdom numbers, alliance tags, Power, Mystic, and leaderboard ranks can all change or be ambiguous. They are matching evidence, not identity keys.
-- Public leaderboards may omit the in-game ID. Leave `governor_id` blank until there is a defensible match; never manufacture one from another number.
-- Prefer an ID copied from the player's in-game profile. A third-party exact-name/kingdom lookup is useful for a candidate match but remains pending until checked in game or against another independent source.
+- 以遊戲內 `Governor ID`／`Player ID` 當主鍵，欄位名為 `governor_id`。
+- `tracker_uid` 是第三方資料庫內部鍵，不可取代或冒充遊戲內 ID。
+- 名稱、王國、聯盟、Power、Mystic 與榜單排名都可能改變或重複；它們是比對證據，不是身分主鍵。
+- 公開榜單可能沒有遊戲內 ID。沒有可辯護的比對前，讓 `governor_id` 留白；不可拿其他數字補上。
+- 優先使用玩家遊戲內個人資料複製的 ID。第三方的同名／同國精確查詢可作候選，但在遊戲內或另一獨立來源確認前仍屬待確認。
 
-## Registry CSV
+## 名冊 CSV
 
-Use one current row per `governor_id` with these columns:
+每個 `governor_id` 只保留一筆目前列：
 
 ```text
 governor_id,tracker_uid,current_kingdom,current_name,known_names,
 provided_label,rank_hint,match_status,id_source,id_last_checked,notes
 ```
 
-- `known_names`: prior exact visible names separated by ` | `; preserve Unicode and spelling.
-- `provided_label`: the shorthand or spelling originally supplied by the user.
-- `rank_hint`: an explicitly labeled historical rank only. Never reinterpret it as an ID.
-- `match_status`: distinguish at least `in_game_confirmed`, `third_party_exact_pending`, `high_confidence_candidate`, and `unresolved_candidate`.
-- `id_source`: state where the ID came from; do not imply KS Atlas supplied it when another service did.
-- `id_last_checked`: ISO date (`YYYY-MM-DD`) for the identity lookup, not the leaderboard snapshot date.
+- `known_names`：已確認的舊可見名稱，以 ` | ` 分隔，保留原始 Unicode 與拼寫。
+- `provided_label`：使用者最初提供的簡稱或拼寫；不等於已確認舊名。
+- `rank_hint`：明確標示的歷史排名，不可重新解讀為 ID。
+- `match_status`：至少區分 `in_game_confirmed`、`third_party_exact_pending`、`high_confidence_candidate`、`unresolved_candidate`。
+- `id_source`：說明 ID 來源；若來自其他服務，不可假裝由 KS Atlas 提供。
+- `id_last_checked`：身分查詢日期，格式 `YYYY-MM-DD`；它不是榜單快照日期。
 
-Use `scripts/upsert_player_registry.py` to update a row. If the current visible name changes, the script moves the former current name into `known_names` before writing the new name. Review candidates manually before upgrading their status to `in_game_confirmed`.
+用 `scripts/upsert_player_registry.py` 更新名冊。可見名稱改變時，腳本會先把舊目前名稱放進 `known_names` 再寫入新名稱。人工核對後才可把狀態升級為 `in_game_confirmed`。
 
-## Report display
+## 報告顯示
 
-Keep the registry as reproducible source data. Add IDs to a public report only when the user asks for them and understands that the report will expose a persistent account identifier. Otherwise use the ID internally for deduplication while displaying the current name and, when useful, a compact former-name note.
+名冊是可重建的來源資料。只有使用者要求並理解報告會暴露持久帳號識別碼時，才把 Governor ID 放進公開報告。其他情況在內部用 ID 去重，公開只顯示目前名稱，必要時加上精簡曾用名。

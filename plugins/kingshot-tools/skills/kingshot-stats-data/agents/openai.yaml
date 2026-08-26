@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kingshot Stats 玩家資料"
+  short_description: "依名稱或 Governor ID 查詢玩家、王國、聯盟與排名資料"
+  default_prompt: "使用 $kingshot-stats-data 依 Governor ID 查詢玩家目前名稱、王國、聯盟、Power、Mystic 與資料時間。"
